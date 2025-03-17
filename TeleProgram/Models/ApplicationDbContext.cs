@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
 namespace TeleProgram.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -49,8 +50,14 @@ namespace TeleProgram.Models
                 .WithMany(b => b.Calls)
                 .HasForeignKey(c => c.BillsId);
 
-            
-            
+
+
+            //Configure the one-to-one relationship between ApplicationUser and Phone one user can have one phone and only one phone can belong to one user
+            modelBuilder.Entity<Phones>()
+                .HasOne(p => p.ApplicationUser) 
+                .WithOne(u => u.Phones) 
+                .HasForeignKey<Phones>(p => p.UserId) 
+                .OnDelete(DeleteBehavior.SetNull); 
 
         }
 

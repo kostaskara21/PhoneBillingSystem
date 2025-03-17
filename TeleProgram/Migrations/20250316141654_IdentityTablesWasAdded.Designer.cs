@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeleProgram.Models;
 
@@ -11,9 +12,11 @@ using TeleProgram.Models;
 namespace TeleProgram.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250316141654_IdentityTablesWasAdded")]
+    partial class IdentityTablesWasAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,7 +258,7 @@ namespace TeleProgram.Migrations
 
                     b.HasIndex("PhoneNumber");
 
-                    b.ToTable("Bills", (string)null);
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("TeleProgram.Models.Calls", b =>
@@ -276,7 +279,7 @@ namespace TeleProgram.Migrations
 
                     b.HasIndex("BillsId");
 
-                    b.ToTable("Calls", (string)null);
+                    b.ToTable("Calls");
                 });
 
             modelBuilder.Entity("TeleProgram.Models.Phones", b =>
@@ -299,7 +302,7 @@ namespace TeleProgram.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Phones", (string)null);
+                    b.ToTable("Phones");
                 });
 
             modelBuilder.Entity("TeleProgram.Models.Programs", b =>
@@ -316,7 +319,7 @@ namespace TeleProgram.Migrations
 
                     b.HasKey("ProgrameName");
 
-                    b.ToTable("Programs", (string)null);
+                    b.ToTable("Programs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

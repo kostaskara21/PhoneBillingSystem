@@ -16,7 +16,9 @@ namespace TeleProgram.Models
 
         public List<Bills> Bills { get; set; }
 
-
+        
+        public string? UserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
      
     }
 }
