@@ -18,7 +18,5 @@ namespace TeleProgram.Models
         public List<Phones> Phones { get; set; }
        
 
-
-
     }
 }

@@ -22,6 +22,7 @@ using TeleProgram.Models;
 
 namespace TeleProgram.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = "Admin,Seller")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -122,30 +123,21 @@ namespace TeleProgram.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    //Also adding the User to the UsersTable as a client every time someone is being registed 
-                    await _userManager.AddToRoleAsync(user, "Client");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //Also adding the User to the UsersTable as a client every time someone is being registed
+                    //An admin can only make sellers and and Seller can only make client
+                    if (User.IsInRole("Admin"))
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        await _userManager.AddToRoleAsync(user, "Seller");
+                        return RedirectToPage("/Home/Index");
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        await _userManager.AddToRoleAsync(user, "Client");
+                        return RedirectToPage("/Home/Index");
                     }
+
+                   
                 }
                 foreach (var error in result.Errors)
                 {

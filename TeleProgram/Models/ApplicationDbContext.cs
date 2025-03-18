@@ -12,11 +12,11 @@ namespace TeleProgram.Models
 
         }
 
-        DbSet<Programs> Programs { get; set; }
-        DbSet<Phones> Phones { get; set; }
+        public DbSet<Programs> Programs { get; set; }
+        public DbSet<Phones> Phones { get; set; }
 
-        DbSet<Bills> Bills { get; set; }
-        DbSet<Calls> Calls { get; set; }
+        public DbSet<Bills> Bills { get; set; }
+        public DbSet<Calls> Calls { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

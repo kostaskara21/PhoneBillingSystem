@@ -1,0 +1,61 @@
+﻿@model IEnumerable<TeleProgram.Models.Programs>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Available Programs</h1>
+<br />
+<p>
+    <form asp-action="Create"  method="get" class="d-inline">
+        <button type="submit" class="btn btn-success">Create New</button>
+    </form>
+    
+</p>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrameName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Charge)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgrameName)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Charge)
+            </td>
+            <td>
+                    <form asp-action="Edit" asp-route-id="@item.ProgrameName" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+
+                    <form asp-action="Details" asp-route-id="@item.ProgrameName" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-info">Details</button>
+                    </form>
+
+                    <form asp-action="Delete" asp-route-id="@item.ProgrameName" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
