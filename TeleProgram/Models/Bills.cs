@@ -8,7 +8,7 @@ namespace TeleProgram.Models
         public int Id { get; set; }
 
         [Required]
-        public decimal Coast { get; set; }
+        public decimal Cost { get; set; }
 
 
 

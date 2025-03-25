@@ -1,0 +1,29 @@
+﻿@model TeleProgram.Models.Bills
+
+@{
+    var Error=TempData["NotFoundProgramName"];
+}
+@if(Error!=null){
+    <div class="alert alert-danger">
+        <p >@Error</p>
+    </div>
+}
+
+<h1 class ="row justify-content-center">Make Bill For Clint</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

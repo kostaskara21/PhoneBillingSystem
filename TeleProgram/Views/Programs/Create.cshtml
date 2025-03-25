@@ -1,46 +1,59 @@
 ﻿@model TeleProgram.Models.Programs
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Program";
 }
 
-<h1>Create</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Create a New Program</h1>
 
-<h4>Programs</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProgrameName" class="control-label"></label>
-                <input asp-for="ProgrameName" class="form-control" />
-                <span asp-validation-for="ProgrameName" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-primary">
+                    <h4 class="mb-0">Program Details</h4>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <!-- Program Name -->
+                        <div class="form-group">
+                            <label asp-for="ProgrameName" class="control-label font-weight-bold"></label>
+                            <input asp-for="ProgrameName" class="form-control" placeholder="Enter program name" />
+                            <span asp-validation-for="ProgrameName" class="text-danger"></span>
+                        </div>
+                        <!--Description -->
+                        <div class="form-group mt-3">
+                            <label asp-for="Description" class="control-label font-weight-bold"></label>
+                            <input asp-for="Description" class="form-control" placeholder="Enter program description" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <!-- Charge Field -->
+                        <div class="form-group mt-3">
+                            <label asp-for="Charge" class="control-label font-weight-bold"></label>
+                            <input asp-for="Charge" class="form-control" placeholder="Enter charge amount" />
+                            <span asp-validation-for="Charge" class="text-danger"></span>
+                        </div>
+                        <!-- Button for  submiting  -->
+                        <div class="form-group mt-4 text-center">
+                            <input type="submit" value="Create" class="btn btn-success btn-lg" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+
+            <div class="mt-3 text-center">
+                <form asp-action="Index">
+                    <button type="submit" class="btn btn-secondary btn-lg">Back to List</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Charge" class="control-label"></label>
-                <input asp-for="Charge" class="form-control" />
-                <span asp-validation-for="Charge" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-<br />
-<div>
-     <form asp-action="Index">
-    <button >Back to List</button>
-    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

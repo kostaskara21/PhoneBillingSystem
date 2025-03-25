@@ -1,0 +1,49 @@
+﻿@model TeleProgram.Models.Phones
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@{
+    var Nofound = TempData["NotFound"];
+    var CompleteChange = TempData["Complete"];
+}
+@if (Nofound != null)
+{
+    <div class="alert alert-danger">
+        @Nofound
+    </div>
+}
+
+
+<h1 class="text-center">Edit</h1>
+
+<h4 class="text-center">Phones</h4>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PhoneNumber" />
+            <div class="form-group">
+                <label asp-for="ProgrameName" class="control-label"></label>
+                <select asp-for="ProgrameName" class="form-control" asp-items="ViewBag.ProgrameName"></select>
+                <span asp-validation-for="ProgrameName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="text-center">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

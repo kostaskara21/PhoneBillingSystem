@@ -7,6 +7,9 @@ namespace TeleProgram.Models
         public int Id { get; set; }
 
         [Required]
+        public string CalledPhoneNumber { get; set; }
+
+        [Required]
         public double Duration { get; set; }
 
         //Foreign key for the Bills 

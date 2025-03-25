@@ -1,0 +1,36 @@
+﻿@model TeleProgram.Models.Phones
+
+@{
+    ViewData["Title"] = "Give Users Email";
+    var Nofound = TempData["NotFound"];
+    var CompleteChange = TempData["Complete"];
+}
+@if (Nofound != null)
+{
+    <div class="alert alert-danger">
+        @Nofound
+    </div>
+}
+@if (CompleteChange != null)
+{
+    <div class="alert alert-success">
+        @CompleteChange
+    </div>
+}
+<h1 class="text-center mb-4">Change Clients Program</h1>
+<p class="text-center mb-4">Give Users Email</p>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="ChangeClientProgram" method="post">
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>

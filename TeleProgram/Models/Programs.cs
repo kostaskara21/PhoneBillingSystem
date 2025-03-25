@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace TeleProgram.Models
@@ -6,6 +7,7 @@ namespace TeleProgram.Models
     public class Programs
     {
         [Key]
+        [DisplayName("Progran Name")]
         public string ProgrameName { get; set; }
 
         [Required]

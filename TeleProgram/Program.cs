@@ -20,6 +20,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 
 var app = builder.Build();
+// Enable serving static files from wwwroot
+app.UseStaticFiles(); 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
