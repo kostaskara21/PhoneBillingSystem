@@ -39,42 +39,54 @@
 
 
 <h1>Assign Phone To New user</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Create Phone Record</h2>
+                    <hr />
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Phone Number -->
+                        <div class="form-floating mb-3">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                            <label asp-for="PhoneNumber">Phone Number</label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- Program Name Dropdown -->
+                        <div class="form-floating mb-3">
+                            <select asp-for="ProgrameName" class="form-control" asp-items="ViewBag.ProgrameName"></select>
+                            <label asp-for="ProgrameName">Program Name</label>
+                        </div>
+
+                        <!-- User ID -->
+                        <div class="form-floating mb-3">
+                            <input asp-for="UserId" class="form-control" placeholder="Enter User ID" />
+                            <label asp-for="UserId">User ID</label>
+                        </div>
+
+                        <!-- Create Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Create</button>
+                        </div>
+                    </form>
+
+                    <!-- Back to List Button -->
+                    <div class="text-center mt-3">
+                        <form asp-action="Index" asp-controller="Home">
+                            <button type="submit" class="btn btn-outline-secondary">Back to List</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="form-group">
-                <label asp-for="ProgrameName" class="control-label"></label>
-                <select asp-for="ProgrameName" class ="form-control" asp-items="ViewBag.ProgrameName"></select>
-            </div>
-            <br />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <br />
-                <input asp-for=UserId />
-                
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<br />
-<div>
-    <form asp-action="Index">
-        <button>Back to List</button>
-    </form>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

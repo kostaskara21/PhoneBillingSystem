@@ -30,11 +30,18 @@
                         @if (User.IsInRole("Seller"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Phones" asp-action="ChangeClientProgram">Change Client Program</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Phones" asp-action="ChangeClientProgram">Change Clients Program</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Create">Make Clien Bills</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Create">Make Clients Bills</a>
                             </li>
+                        }
+                        @if (User.IsInRole("Client"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">View My Bills</a>
+                            </li>
+                           
                         }
                         
                     </ul>

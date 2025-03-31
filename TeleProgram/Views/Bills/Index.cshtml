@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TeleProgram.Models.Bills>
+
+@{
+    ViewData["Title"] = "Available Programs";
+    var CompleteChange = TempData["Complete"];
+}
+@if (CompleteChange != null)
+{
+    <div class="alert alert-success">
+        @CompleteChange
+    </div>
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Available Programs</h1>
+
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.Cost)</th>
+                    
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            @if (Model != null)
+            {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if(item.Cost!=0){
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cost)</td>
+                        
+                        <td class="text-center">
+                            <form asp-action="Edit" method="post" class="d-inline">
+                                <input type="hidden" name="phonenumber" value="@item.PhoneNumber" />
+                                <button type="submit" class="btn btn-primary btn-sm">Pay Bill</button>
+                            </form>
+
+                        </td>
+                    </tr>
+                        }
+                }
+            </tbody>
+                }
+        </table>
+
+        
+    </div>

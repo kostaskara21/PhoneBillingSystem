@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TeleProgram.Interfaces;
 using TeleProgram.Models;
 
 namespace TeleProgram.Controllers
@@ -15,16 +16,22 @@ namespace TeleProgram.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ProgramsController(ApplicationDbContext context)
+        //This is for refactoring the code using Repository Pattern 
+        private readonly IPrograms _programs;
+
+        public ProgramsController(ApplicationDbContext context, IPrograms programs)
         {
             _context = context;
+            _programs = programs;
         }
 
         // GET: Programs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Programs.ToListAsync());
+            var programs = await _programs.Index();
+            return View(programs);
         }
+
 
         // GET: Programs/Details/5
         public async Task<IActionResult> Details(string id)
@@ -62,6 +69,7 @@ namespace TeleProgram.Controllers
             
         }
 
+
         // GET: Programs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -77,6 +85,7 @@ namespace TeleProgram.Controllers
             }
             return View(programs);
         }
+
 
         
         [HttpPost]

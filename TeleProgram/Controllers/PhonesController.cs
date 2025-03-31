@@ -106,10 +106,13 @@ namespace TeleProgram.Controllers
             else
             {
                 TempData["error"] = "There is no such a user";
+                ViewData["ProgrameName"] = new SelectList(_context.Programs, "ProgrameName", "ProgrameName", phones.ProgrameName);
+                return View(phones);
             }
             ViewData["ProgrameName"] = new SelectList(_context.Programs, "ProgrameName", "ProgrameName", phones.ProgrameName);
             return View(phones);
         }
+
 
 
         // GET: Phones/Edit/5

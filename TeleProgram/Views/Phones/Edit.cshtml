@@ -13,34 +13,51 @@
         @Nofound
     </div>
 }
+@if (CompleteChange != null)
+{
+    <div class="alert alert-success">
+        @CompleteChange
+    </div>
+}
 
 
-<h1 class="text-center">Edit</h1>
+<h1 class="text-center my-4">Edit Phone</h1>
 
-<h4 class="text-center">Phones</h4>
-<hr />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="text-center mb-3">Phone Details</h4>
+                    <hr />
 
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PhoneNumber" />
-            <div class="form-group">
-                <label asp-for="ProgrameName" class="control-label"></label>
-                <select asp-for="ProgrameName" class="form-control" asp-items="ViewBag.ProgrameName"></select>
-                <span asp-validation-for="ProgrameName" class="text-danger"></span>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="PhoneNumber" />
+
+                        <!-- Program Name Dropdown -->
+                        <div class="form-floating mb-3">
+                            <select asp-for="ProgrameName" class="form-control" asp-items="ViewBag.ProgrameName"></select>
+                            <label asp-for="ProgrameName">Program Name</label>
+                            <span asp-validation-for="ProgrameName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Save</button>
+                        </div>
+                    </form>
+
+                    <!-- Back to List Link -->
+                    <div class="text-center mt-3">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<br />
-<div class="text-center">
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

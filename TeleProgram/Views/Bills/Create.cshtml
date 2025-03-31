@@ -2,10 +2,18 @@
 
 @{
     var Error=TempData["NotFoundProgramName"];
+    var created = TempData["Found"];
 }
 @if(Error!=null){
     <div class="alert alert-danger">
         <p >@Error</p>
+    </div>
+}
+
+@if (created != null)
+{
+    <div class="alert alert-success">
+        <p>@created</p>
     </div>
 }
 
