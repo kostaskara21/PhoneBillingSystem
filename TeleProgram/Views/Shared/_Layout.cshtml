@@ -1,67 +1,68 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TeleProgram</title>
+﻿<header>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TeleProgram.styles.css" asp-append-version="true" />
-    
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TeleProgram</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Programs" asp-action="Create">Add Program</a>
-                            </li>
-                        }
-                     
-                        @if (User.IsInRole("Seller"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Phones" asp-action="ChangeClientProgram">Change Clients Program</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Create">Make Clients Bills</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Client"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">View My Bills</a>
-                            </li>
-                           
-                        }
-                        
-                    </ul>
-                </div>
-                <partial name="_LoginPartial" /> 
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Index">TeleProgram</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end">
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+    </nav>
+</header>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="bg-dark text-white vh-100 p-4 shadow-lg" style="width: 250px; border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+        
+        <ul class="nav flex-column">
+            @if (User.IsInRole("Admin"))
+            {
+                <h5 class="text-center mb-4">Options:</h5>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-light d-flex align-items-center" asp-area="" asp-controller="Programs" asp-action="Create">
+                        📌 <span class="ms-2">Add Program</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Seller"))
+            {
+                <h5 class="text-center mb-4">Options:</h5>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-light d-flex align-items-center" asp-area="" asp-controller="Phones" asp-action="ChangeClientProgram">
+                        🔄 <span class="ms-2">Change Clients Program</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-light d-flex align-items-center" asp-area="" asp-controller="Bills" asp-action="Create">
+                        🧾 <span class="ms-2">Make Clients Bills</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Client"))
+            {
+                <h5 class="text-center mb-4">Options:</h5>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center" asp-area="" asp-controller="Bills" asp-action="Index">
+                        💰 <span class="ms-2">View My Bills</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+    
+
+    <!-- Main Content -->
+    <div class="flex-grow-1 p-4 bg-light rounded shadow-sm">
+        @RenderBody()
     </div>
+</div>
 
-   
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
-
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)

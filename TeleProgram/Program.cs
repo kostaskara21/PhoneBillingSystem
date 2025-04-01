@@ -19,6 +19,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IPrograms, ProgramsRepo>();
+builder.Services.AddScoped<IBills, BillsRepo>();
+
 
 
 

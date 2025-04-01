@@ -10,9 +10,9 @@ namespace TeleProgram.Interfaces
 
         Task<Programs?> Details(string id);
 
-        Task<Programs> Create(Programs programs);
+        Task<Boolean> Create(Programs programs);
 
-        Task<Programs?> Edit(string id, Programs programs);
+        Task<Programs?> Edit(string id,string desc,decimal charg);
 
         Task<Programs?> Delete(string id);
 

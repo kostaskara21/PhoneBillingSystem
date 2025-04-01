@@ -18,25 +18,76 @@ namespace TeleProgram.Repositories
             
         }
 
-        public Task<Programs> Create(Programs programs)
+        public async Task<Boolean> Create(Programs programs)
         {
-            throw new NotImplementedException();
+            _context.Add(programs);
+            var status=await _context.SaveChangesAsync();
+            if (status > 0)
+            {
+                return true;
+            }
+            else { return false; }
+
         }
 
-        public Task<Programs?> Delete(string id)
+        public async Task<Programs?> Delete(string id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                return null;
+            }
+
+            var programs = await _context.Programs
+                .FirstOrDefaultAsync(m => m.ProgrameName == id);
+
+            if (programs == null)
+            {
+                return null;
+            }
+
+            _context.Programs.Remove(programs);
+
+            await _context.SaveChangesAsync();
+            return programs;
         }
 
-        public Task<Programs?> Details(string id)
+
+
+        public async Task<Programs?> Details(string id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                return null;
+            }
+
+            var programs = await _context.Programs
+                .FirstOrDefaultAsync(m => m.ProgrameName == id);
+            if (programs == null)
+            {
+                return null;
+            }
+            return programs;
         }
 
-        public Task<Programs?> Edit(string id, Programs programs)
-        {
-            throw new NotImplementedException();
+        public async Task<Programs?> Edit(string id, string desc, decimal charg) { 
+            if (id == null)
+            {
+                return null;
+            }
+
+            var Programs = await _context.Programs.FindAsync(id);
+            if (Programs == null)
+            {
+                return null;
+            }
+            Programs.Description = desc;
+            Programs.Charge = charg;    
+             _context.Update(Programs);
+            await _context.SaveChangesAsync();
+            
+            return Programs;
         }
+
 
         public async Task<List<Programs>> Index()
         {

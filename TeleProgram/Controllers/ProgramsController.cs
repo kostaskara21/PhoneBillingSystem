@@ -14,14 +14,13 @@ namespace TeleProgram.Controllers
     [Authorize(Roles ="Admin")]
     public class ProgramsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
+      
         //This is for refactoring the code using Repository Pattern 
         private readonly IPrograms _programs;
 
         public ProgramsController(ApplicationDbContext context, IPrograms programs)
         {
-            _context = context;
+           
             _programs = programs;
         }
 
@@ -36,20 +35,15 @@ namespace TeleProgram.Controllers
         // GET: Programs/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
+            var programs = await _programs.Details(id);
+            if(programs==null)
             {
                 return NotFound();
-            }
 
-            var programs = await _context.Programs
-                .FirstOrDefaultAsync(m => m.ProgrameName == id);
-            if (programs == null)
-            {
-                return NotFound();
             }
-
             return View(programs);
         }
+
 
         // GET: Programs/Create
         public IActionResult Create()
@@ -62,79 +56,43 @@ namespace TeleProgram.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProgrameName,Description,Charge")] Programs programs)
         {
+
+            if (await _programs.Create(programs))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
            
-            _context.Add(programs);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            
         }
+
 
 
         // GET: Programs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var programs = await _context.Programs.FindAsync(id);
-            if (programs == null)
-            {
-                return NotFound();
-            }
-            return View(programs);
+            return View();
         }
 
-
-        
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ProgrameName,Description,Charge")] Programs programs)
         {
-            if (id != programs.ProgrameName)
-            {
-                return NotFound();
-            }
-
-            
-            try
-            {
-                _context.Update(programs);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProgramsExists(programs.ProgrameName))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-            
-           
-        }
-
-        // GET: Programs/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var programs = await _context.Programs
-                .FirstOrDefaultAsync(m => m.ProgrameName == id);
+            programs = await _programs.Edit(id,programs.Description,programs.Charge);
             if (programs == null)
             {
                 return NotFound();
             }
+            return RedirectToAction(nameof(Index),programs);
+                      
+        }
 
-            return View(programs);
+
+
+        // GET: Programs/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            return View();
         }
 
         // POST: Programs/Delete/5
@@ -142,19 +100,10 @@ namespace TeleProgram.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var programs = await _context.Programs.FindAsync(id);
-            if (programs != null)
-            {
-                _context.Programs.Remove(programs);
-            }
-
-            await _context.SaveChangesAsync();
+            await _programs.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProgramsExists(string id)
-        {
-            return _context.Programs.Any(e => e.ProgrameName == id);
-        }
+       
     }
 }

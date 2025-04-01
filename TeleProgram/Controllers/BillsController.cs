@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TeleProgram.Interfaces;
 using TeleProgram.Models;
 
 namespace TeleProgram.Controllers
@@ -11,11 +12,15 @@ namespace TeleProgram.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IBills _bills;
 
-        public BillsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        public BillsController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IBills bills)
         {
             _userManager = userManager;
             _context = context;
+            _bills = bills;
         }
 
 
@@ -25,15 +30,13 @@ namespace TeleProgram.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string phonenumber)
         {
-            var bill = await _context.Bills.FirstOrDefaultAsync(x=>x.PhoneNumber==phonenumber);
-            if (bill == null)
+
+            var bill = await _bills.Delete(phonenumber);
+            if (!bill)
             {
                 return NotFound();
             }
-            bill.Cost = 0;
-            _context.Remove(bill);
-            var status=await _context.SaveChangesAsync();
-            if (status >0)
+            if (bill)
             {
                 TempData["Complete"] = "Bill Payied";
             }
@@ -41,25 +44,27 @@ namespace TeleProgram.Controllers
         }
 
 
+
         //Only the client can see his bills
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Index()
         {
 
-            var userid = await  _userManager.GetUserAsync(User);
+            var userid = await _userManager.GetUserAsync(User);
             if (userid == null)
             {
                 return NotFound();
             }
-            
+
             var id = userid.Id;
-            var phone = await _context.Phones.FirstOrDefaultAsync(x => x.UserId.Equals(id));
-            var phoneonly = phone.PhoneNumber;
 
-            var calls = await _context.Bills
-                   .Where(x => x.PhoneNumber.Equals(phoneonly))  // Filters records with the matching phone number
-                   .ToListAsync();  // Converts the result into a list
 
+            var calls = await _bills.Index(id);
+            if (calls == null)
+            {
+                return NotFound();
+            }
+            
             return View(calls);
             
 
@@ -83,32 +88,18 @@ namespace TeleProgram.Controllers
         [Authorize(Roles = "Seller")]
         public async Task<IActionResult> Create(String phonenumber)
         {
+            var b= await _bills.Create(phonenumber);
+
             //we are giving the phone number of the client 
             //from the Phone we can identify the ProgramName(UserId is Fk in the table of Phones since each user has a specific Phone)
             var programName = await _context.Phones.FirstOrDefaultAsync(o => o.PhoneNumber == phonenumber);
            
-            if (programName == null)
+            if (!b)
             {
                 TempData["NotFoundProgramName"] = "There is Not Such A Number Try again";
                 return View();
             }
-            var proprogramName = programName.ProgrameName;
-            var cost = await _context.Programs.FirstOrDefaultAsync(p => p.ProgrameName == proprogramName);
-            var charge = cost.Charge;
-
-            Bills bills = new Bills();
-
-
-
-            bills.PhoneNumber = phonenumber;
-            bills.Cost = charge;
-
-
-
-            _context.Add(bills);
-            var status=_context.SaveChanges();
-            if (status > 0)
-            {
+            else {
                 TempData["Found"] = "Bill Created";
             }
             return View();
